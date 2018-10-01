@@ -17,30 +17,36 @@ PROGRAM: [=         ]  10.3% (used 432488 bytes from 4194304 bytes)
 
 // Definitios of the MODBUS query
 // To read all data it is necessary two different queries
+<<<<<<< HEAD
 #define NUMBER_OF_REGISTERS 8
 #define DIRECTION_TO_READ_1 0x0000
 #define REGISTERS_TO_READ_1 16
+=======
+#define NUMBER_OF_REGISTERS 25
+#define DIRECTION_TO_READ_1 0x0000
+#define REGISTERS_TO_READ_1 13
+>>>>>>> 45fd765f436e5260315697ce3a1461d2bb128431
 #define DIRECTION_TO_READ_2 0x001E
-#define REGISTERS_TO_READ_2 9
+#define REGISTERS_TO_READ_2 12
 
 
 
-#define PARAMETER_LIST "V_1","A_1","Kw_1","Kvar_1","PF_1",\
-                       "V_2","A_2","Kw_2","Kvar_2","PF_2",\
-                       "V_3","A_3","Kw_3","Kvar_3","PF_3",\
-                       "Kw_III","KvarL_III","KvarC_III","Cos_III","PFIII",\
-                       "Hz","V12","V23","V31"
+#define PARAMETER_LIST "V","A","Kw","KVAr","KVArL",\
+                       "KVArC","KVA","PF","kW/A","kW.h",\
+                       "kVArL.h","kVArC.h","kVAr.h","kW.h","kVArL.h",\
+                       "kVArC.h","kVAr.h","kW.h","kVArL.h","kVArC.h",\
+                       "kVAr.h","kW.h","kVArL.h","kVArC.h","kVAr.h"
 
 #define TRANSMISSION_LIST "Kw_1","Kvar_1",\
                           "Kw_2","Kvar_2",\
                           "Kw_3","Kvar_3","V23"
 
 // Divider factor to move to correct units
-#define FACTOR_LIST 10,1000,1,1,100,\
-                    10,1000,1,1,100,\
-                    10,1000,1,1,100,\
-                    1,1,1,100,100,\
-                    10,10,10,10
+#define FACTOR_LIST 10,100,100,100,100,\
+                    100,100,1,100,100,\
+                    10,1000,100,100,100,\
+                    100,100,100,100,100,\
+                    100,100,100,100,100
 
 // arrays needed to read and manage the modbus information
 String array_parameters[] = {PARAMETER_LIST};
@@ -129,7 +135,7 @@ default values when modus is not available
 void default_value_to_register(int first, int last){
   Serial.println("_default_value_to_register_");
   for (int i =first; i < (last); i++) {
-    tx_values[i] = 1.12;
+    tx_values[i] = 9.99;
     Serial.print("tx_values[] ");
     Serial.print(i);
     Serial.print(" -> ");
@@ -194,7 +200,11 @@ void modbus_setup()
   digitalWrite(MAX485_DE, 0);
 
   // Modbus communication runs at 115200 baud
+<<<<<<< HEAD
   // Modbus slave ID 3
+=======
+  // Modbus slave ID 1
+>>>>>>> 45fd765f436e5260315697ce3a1461d2bb128431
   node.begin(1, Serial);
   node.preTransmission(preTransmission);
   node.postTransmission(postTransmission);
