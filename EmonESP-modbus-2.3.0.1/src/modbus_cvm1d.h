@@ -17,9 +17,9 @@ PROGRAM: [=         ]  10.3% (used 432488 bytes from 4194304 bytes)
 
 // Definitios of the MODBUS query
 // To read all data it is necessary two different queries
-#define NUMBER_OF_REGISTERS 24
+#define NUMBER_OF_REGISTERS 8
 #define DIRECTION_TO_READ_1 0x0000
-#define REGISTERS_TO_READ_1 15
+#define REGISTERS_TO_READ_1 16
 #define DIRECTION_TO_READ_2 0x001E
 #define REGISTERS_TO_READ_2 9
 
@@ -63,7 +63,7 @@ t_last_tx variable to know the time from the last function execution
 modbus_state variable to indicate the next functio to be executed
 */
 uint32_t t_last_tx =0;
-int modbus_state = 1;
+int modbus_state = 2;
 
 // instantiate ModbusMaster object
 ModbusMaster node;
@@ -195,7 +195,7 @@ void modbus_setup()
 
   // Modbus communication runs at 115200 baud
   // Modbus slave ID 3
-  node.begin(3, Serial);
+  node.begin(1, Serial);
   node.preTransmission(preTransmission);
   node.postTransmission(postTransmission);
 
@@ -241,8 +241,8 @@ String modbus_loop()
   }
 
   else if (modbus_state == 2) {
-    modbus_state = 3;
-    result = node.readInputRegisters(0x044C, 6);
+    modbus_state = 2;
+    result = node.readInputRegisters(0x0000, 8);
     Serial.println("");
     Serial.print("_readInputRegisters_044C_energy_configuration_");
     Serial.print("    modbus_state -->  ");
